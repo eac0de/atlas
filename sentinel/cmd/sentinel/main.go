@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/eac0de/atlas/sentinel/internal/api/handlers"
 	"github.com/eac0de/atlas/sentinel/internal/api/inmiddlewares"
@@ -13,6 +14,7 @@ import (
 	"github.com/eac0de/atlas/sentinel/internal/services"
 	"github.com/eac0de/atlas/sentinel/internal/storage"
 	"github.com/eac0de/gophkeeper/shared/pkg/emailsender"
+	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,6 +24,17 @@ func setupRouter(
 	authService *services.AuthService,
 ) *gin.Engine {
 	router := gin.Default()
+	
+	corsConfig := cors.Config{
+		AllowOrigins:     []string{"http://localhost:5173"},                   // Разрешённые источники
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}, // Разрешённые HTTP-методы
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"}, // Разрешённые заголовки
+		ExposeHeaders:    []string{"Content-Length"},                          // Заголовки, которые можно видеть на клиенте
+		AllowCredentials: true,                                                // Разрешить отправку куки
+		MaxAge:           12 * time.Hour,                                      // Время кэширования preflight-запросов
+	}
+	router.Use(cors.New(corsConfig))
+
 	rootGroup := router.Group("api/auth")
 
 	authHandlers := handlers.NewAuthHandlers(

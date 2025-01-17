@@ -12,7 +12,7 @@
 }
 
 .input {
-  margin-top: 200px;
+  margin-top: 50px;
   font-size: 30px;
   background: none;
   border: none;
@@ -21,6 +21,10 @@
   padding: 15px; /* Немного отступов внутри поля */
   color: inherit;
   outline: none; /* Убирает стандартное выделение */
+}
+
+.active {
+  margin-top: 100px;
   border-bottom: 2px solid #ccc; /* Добавляет нижнюю границу для стилизации */
 }
 

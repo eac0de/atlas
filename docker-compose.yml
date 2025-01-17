@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     command: ["./sentinel"]
     env_file:
-      - deploy/local/auth.env
+      - deploy/local/sentinel.env
     depends_on:
       - "sentinel_psql"
     ports:
@@ -17,7 +17,7 @@ services:
     image: postgres:17-alpine
     restart: always
     env_file:
-      - deploy/local/auth.env
+      - deploy/local/sentinel.env
     ports:
       - "5454:5432"
     expose:
