@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/eac0de/atlas/sentinel/internal/models"
+	"github.com/eac0de/atlas/nexus/internal/models"
 	"github.com/eac0de/atlas/shared/pkg/httperror"
-
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 )
 
-func (storage *AuthStorage) GetSessionsList(ctx context.Context, userID uuid.UUID) ([]*models.Session, error) {
+func (storage *NexusStorage) GetWorkspacesList(ctx context.Context, userID uuid.UUID, limit int, offset int) ([]*models.Workspace, error) {
 	query := "SELECT id, token, user_id, ip, location, client_info, last_login FROM sessions WHERE user_id=$1"
 	rows, err := storage.Query(ctx, query, userID)
 	if err != nil {

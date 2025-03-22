@@ -1,9 +1,51 @@
 import { useNavigate } from "react-router-dom";
-import "./Auth.css";
+import styled from "styled-components";
 import { React, useState, useEffect } from "react";
+import iconPath from "../assets/new_atlas.png";
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+const MainAuth = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const Title = styled.div`
+  margin: 15px 0px 70px 0px;
+  font-size: 32px;
+`;
+
+const Input = styled.input`
+  margin-top: 0px;
+  font-size: 18px;
+  background: none;
+  border: none;
+  width: 500px;
+  text-align: center;
+  padding: 15px;
+  color: inherit;
+  outline: none;
+  border-bottom: 2px solid #ccc;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ButtonIn = styled.button`
+  margin-top: 100px;
+  background: none;
+  border: none;
+  font-size: 38px;
+  color: inherit;
+  cursor: pointer;
+  width: fit-content;
+`;
+const Logo = styled.img`
+  width: 3%;
+  margin-top: 12%;
+`;
 export default function Auth() {
   const navigate = useNavigate();
 
@@ -84,21 +126,31 @@ export default function Auth() {
     }
   }
 
+  async function onEnter(event) {
+    if (event.code == "Enter") {
+      handleSubmit();
+    }
+  }
+
   return (
-    <div className="main">
-      <div className="title">NEXUS</div>
-      <input type="email" className={"input " + (!emailCodeId ? "active" : "")} placeholder="your@email.com" value={email} onChange={handleInputChange} />
-      {emailCodeId ? <input type="text" className={"input " + (emailCodeId ? "active" : "")} placeholder="code" value={code} onChange={handleInputChange} maxLength={4} /> : null}
+    <MainAuth>
+      <Logo src={iconPath} />
+      <Title>Welcome to NEXUS</Title>
+      {!emailCodeId ? (
+        <Input type={"email"} placeholder="your@email.com" value={email} onChange={handleInputChange} onKeyDown={onEnter} />
+      ) : (
+        <Input type="text" placeholder={`code from ${email}`} value={code} onChange={handleInputChange} maxLength={4} onKeyDown={onEnter} />
+      )}
       <div>
         {emailCodeId ? (
-          <button style={{ paddingRight: "150px" }} className="material-symbols-outlined button-in" onClick={() => setEmailCodeId("")}>
+          <ButtonIn className="material-symbols-outlined" style={{ paddingRight: "200px" }} onClick={() => setEmailCodeId("")}>
             chevron_left
-          </button>
+          </ButtonIn>
         ) : null}
-        <button style={{ opacity: isValidEmail ? "100%" : "20%" }} disabled={!isValidEmail} className="material-symbols-outlined button-in" onClick={handleSubmit}>
-          chevron_right
-        </button>
+        <ButtonIn className="material-symbols-outlined" style={{ opacity: isValidEmail ? "100%" : "20%" }} disabled={!isValidEmail} onClick={handleSubmit}>
+          {!emailCodeId ? "chevron_right" : "check"}
+        </ButtonIn>
       </div>
-    </div>
+    </MainAuth>
   );
 }

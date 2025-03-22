@@ -24,7 +24,7 @@ func setupRouter(
 	authService *services.AuthService,
 ) *gin.Engine {
 	router := gin.Default()
-	
+
 	corsConfig := cors.Config{
 		AllowOrigins:     []string{"http://localhost:5173"},                   // Разрешённые источники
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}, // Разрешённые HTTP-методы
@@ -63,7 +63,7 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	authStorage, err := storage.NewAuthStorage(
+	sentinelStorage, err := storage.NewSentinelStorage(
 		ctx,
 		cfg.PSQLHost,
 		cfg.PSQLPort,
@@ -74,11 +74,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = authStorage.Migrate(ctx, "./migrations", false)
+	err = sentinelStorage.Migrate(ctx, "./migrations", false)
 	if err != nil {
 		panic(err)
 	}
-	defer authStorage.Close()
+	defer sentinelStorage.Close()
 
 	var emailSender emailsender.IEmailSender
 	if cfg.IsDev {
@@ -87,8 +87,8 @@ func main() {
 		emailSender = emailsender.New(cfg.SMTPHost, cfg.SMTPPort, cfg.SMTPUsername, cfg.SMTPPassword)
 	}
 
-	sessionService := services.NewSessionService(cfg.JWTSecretKey, cfg.JWTAccessExp, cfg.JWTRefreshExp, authStorage)
-	authService := services.NewAuthService(authStorage, emailSender)
+	sessionService := services.NewSessionService(cfg.JWTSecretKey, cfg.JWTAccessExp, cfg.JWTRefreshExp, sentinelStorage)
+	authService := services.NewAuthService(sentinelStorage, emailSender)
 
 	gprcAuthServer := grpcserver.NewAuthGRPCServer(cfg.GPRCServerAddress, sessionService)
 	go gprcAuthServer.Run()

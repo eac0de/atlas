@@ -1,23 +1,22 @@
 services:
   sentinel:
+    <<: &default-sentinel
+      env_file:
+        - deploy/local/sentinel.env
+      restart: always
     build:
       context: sentinel
       dockerfile: Dockerfile
     command: ["./sentinel"]
-    env_file:
-      - deploy/local/sentinel.env
     depends_on:
       - "sentinel_psql"
     ports:
       - "8080:8080"
       - "9090:9090"
-    restart: always
 
   sentinel_psql:
+    <<: *default-sentinel
     image: postgres:17-alpine
-    restart: always
-    env_file:
-      - deploy/local/sentinel.env
     ports:
       - "5454:5432"
     expose:

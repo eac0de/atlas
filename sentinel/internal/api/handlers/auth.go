@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/eac0de/atlas/sentinel/internal/services"
-	"github.com/eac0de/gophkeeper/shared/pkg/httperror"
+	"github.com/eac0de/atlas/shared/pkg/httperror"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"

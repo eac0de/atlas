@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/eac0de/atlas/sentinel/internal/models"
-	"github.com/eac0de/gophkeeper/shared/pkg/httperror"
+	"github.com/eac0de/atlas/shared/pkg/httperror"
 
 	"github.com/google/uuid"
 )

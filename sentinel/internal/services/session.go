@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/eac0de/atlas/sentinel/internal/models"
-	"github.com/eac0de/gophkeeper/shared/pkg/httperror"
+	"github.com/eac0de/atlas/shared/pkg/httperror"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
