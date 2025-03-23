@@ -103,7 +103,7 @@ const ProfileMenu = styled.ul`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 40px;
+  top: 60px;
   right: 0px;
   background-color: #e9e9eb;
   box-shadow: 0 2px 5px #43506c;
@@ -125,10 +125,10 @@ const WorkspaceDropdown = styled.ul`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 40px;
+  top: 60px;
   right: 0px;
   width: 180px;
-  height: 300px;
+  max-height: 300px;
   background-color: #e9e9eb;
   box-shadow: 0 2px 5px #43506c;
   padding: 10px;

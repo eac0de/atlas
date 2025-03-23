@@ -169,7 +169,6 @@ export default function HomePage() {
             </Task>
           ))}
         </Tasks>
-        <div style={{ height: "10px" }}></div>
       </TasksBlock>
     </Main>
   );
